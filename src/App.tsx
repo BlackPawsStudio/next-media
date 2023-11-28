@@ -57,6 +57,8 @@ export const App = () => {
             className="absolute w-full h-full top-0 left-0"
             type="file"
             id="folder"
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             directory=""
             webkitdirectory=""
             onChange={(e) => {
