@@ -19,6 +19,8 @@ export const App = () => {
     controlsRef.current && controlsRef.current.focus();
   }, [currentFile, files]);
 
+  console.log(currentFile);
+
   return (
     <>
       {files.length && source ? (
@@ -27,7 +29,6 @@ export const App = () => {
           autoFocus
           tabIndex={1}
           onKeyDown={(e) => {
-            console.log(e.keyCode);
             if (e.keyCode === 37 || e.keyCode === 65) {
               currentFile > 0 && setCurrentFile(currentFile - 1);
             }
@@ -38,11 +39,11 @@ export const App = () => {
           }}
         >
           {source.type === 'vid' ? (
-            <video width="400" controls autoPlay className="h-screen mx-auto">
+            <video width="400" key={source.url} controls autoPlay className="h-screen mx-auto">
               <source src={source.url} type="video/mp4" />
             </video>
           ) : (
-            <img src={source.url} className="h-screen mx-auto" />
+            <img key={source.url} src={source.url} className="h-screen mx-auto" />
           )}
         </div>
       ) : (
@@ -63,7 +64,6 @@ export const App = () => {
             webkitdirectory=""
             onChange={(e) => {
               const rawFiles = e.target.files;
-              console.log(rawFiles);
               if (rawFiles) {
                 const fileUrls: FileType[] = [];
                 for (let i = 0; i < rawFiles.length; i++) {
@@ -80,6 +80,8 @@ export const App = () => {
                     createdAt: rawFiles[i].lastModified,
                   });
                 }
+                console.log(rawFiles);
+                console.log(fileUrls);
                 setFiles(fileUrls.sort((a, b) => a.createdAt - b.createdAt));
               }
             }}
