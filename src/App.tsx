@@ -20,7 +20,9 @@ export const App = () => {
     controlsRef.current && controlsRef.current.focus();
   }, [currentFile, files]);
 
-  console.log(currentFile);
+  useEffect(() => {
+    console.log(currentFile);
+  }, [currentFile]);
 
   return (
     <>
@@ -84,16 +86,7 @@ export const App = () => {
                 }
                 console.log(rawFiles);
                 console.log(fileUrls);
-                setFiles(
-                  fileUrls.sort((a, b) => {
-                    if (a.name < b.name) {
-                      return -1;
-                    } else if (a.name > b.name) {
-                      return 1;
-                    }
-                    return 0;
-                  })
-                );
+                setFiles(fileUrls.sort((a, b) => a.name.localeCompare(b.name)));
               }
             }}
           />
