@@ -4,6 +4,7 @@ interface FileType {
   url: string;
   type: 'vid' | 'img';
   createdAt: number;
+  name: string;
 }
 
 export const App = () => {
@@ -15,7 +16,7 @@ export const App = () => {
 
   useEffect(() => {
     setSource(files[currentFile]);
-    setTimeout
+    setTimeout;
     controlsRef.current && controlsRef.current.focus();
   }, [currentFile, files]);
 
@@ -78,11 +79,21 @@ export const App = () => {
                     url: URL.createObjectURL(rawFiles[i]),
                     type: type,
                     createdAt: rawFiles[i].lastModified,
+                    name: rawFiles[i].name,
                   });
                 }
                 console.log(rawFiles);
                 console.log(fileUrls);
-                setFiles(fileUrls.sort((a, b) => a.createdAt - b.createdAt));
+                setFiles(
+                  fileUrls.sort((a, b) => {
+                    if (a.name < b.name) {
+                      return -1;
+                    } else if (a.name > b.name) {
+                      return 1;
+                    }
+                    return 0;
+                  })
+                );
               }
             }}
           />
