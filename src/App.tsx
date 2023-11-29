@@ -90,8 +90,8 @@ export const App = () => {
                 setFiles(
                   fileUrls.sort(
                     (a, b) =>
-                      Number(a.name.split('.')[0].replace('-', ',')) -
-                      Number(b.name.split('.')[0].replace('-', ','))
+                      Number(a.name.split('.')[0].replace('-', '.')) -
+                      Number(b.name.split('.')[0].replace('-', '.'))
                   )
                 );
               }
