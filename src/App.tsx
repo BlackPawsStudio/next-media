@@ -42,6 +42,7 @@ export const App = () => {
             }
           }}
         >
+          <div className='text-white drop-shadow-md absolute top-1 left-1/2 -translate-x-1/2'>{source.name}</div>
           {source.type === 'vid' ? (
             <video width="400" key={source.url} controls autoPlay className="h-screen mx-auto">
               <source src={source.url} type="video/mp4" />
