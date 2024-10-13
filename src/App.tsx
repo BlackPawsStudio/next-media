@@ -43,7 +43,7 @@ export const App = () => {
               currentFile < files.length - 1 && setCurrentFile(currentFile + 1);
             }
             // rotate
-            if (e.keyCode === 32) {
+            if (e.keyCode === 38) {
               const element = document.getElementById('media');
               if (element) {
                 setAngle(angle + 1);
