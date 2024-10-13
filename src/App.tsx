@@ -12,6 +12,8 @@ export const App = () => {
   const [files, setFiles] = useState<FileType[]>([]);
   const [currentFile, setCurrentFile] = useState(0);
 
+  const [angle, setAngle] = useState(0);
+
   const controlsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,10 +22,9 @@ export const App = () => {
     controlsRef.current && controlsRef.current.focus();
   }, [currentFile, files]);
 
-
   useEffect(() => {
-    console.log(currentFile);
-  }, [currentFile])
+    setAngle(0);
+  }, [currentFile]);
 
   return (
     <>
@@ -33,6 +34,7 @@ export const App = () => {
           autoFocus
           tabIndex={1}
           onKeyDown={(e) => {
+            // left
             if (e.keyCode === 37 || e.keyCode === 65) {
               currentFile > 0 && setCurrentFile(currentFile - 1);
             }
@@ -40,15 +42,32 @@ export const App = () => {
             if (e.keyCode === 39 || e.keyCode === 68) {
               currentFile < files.length - 1 && setCurrentFile(currentFile + 1);
             }
+            // rotate
+            if (e.keyCode === 32) {
+              const element = document.getElementById('media');
+              if (element) {
+                setAngle(angle + 1);
+                element.style.transform = `rotate(${(angle + 1) * 90}deg)`;
+              }
+            }
           }}
         >
-          <div className='text-white drop-shadow-md absolute top-1 left-1/2 -translate-x-1/2'>{source.name}</div>
+          <div className="text-white drop-shadow-md absolute top-1 left-1/2 -translate-x-1/2">
+            {source.name}
+          </div>
           {source.type === 'vid' ? (
-            <video width="400" key={source.url} controls autoPlay className="h-screen mx-auto">
+            <video
+              id="media"
+              width="400"
+              key={source.url}
+              controls
+              autoPlay
+              className="h-screen mx-auto"
+            >
               <source src={source.url} type="video/mp4" />
             </video>
           ) : (
-            <img key={source.url} src={source.url} className="h-screen mx-auto" />
+            <img id="media" key={source.url} src={source.url} className="h-screen mx-auto" />
           )}
         </div>
       ) : (
@@ -86,15 +105,7 @@ export const App = () => {
                     name: rawFiles[i].name,
                   });
                 }
-                console.log(rawFiles);
-                console.log(fileUrls);
-                setFiles(
-                  fileUrls.sort(
-                    (a, b) =>
-                      Number(a.name.split('.')[0].replace('-', '.')) -
-                      Number(b.name.split('.')[0].replace('-', '.'))
-                  )
-                );
+                setFiles(fileUrls.sort((a, b) => a.createdAt - b.createdAt));
               }
             }}
           />
